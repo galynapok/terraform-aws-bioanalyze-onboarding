@@ -95,6 +95,9 @@ databese secters, iam user to wit access to created resources.
           install_ingress = true
           helm_release_values_service_type = "LoadBalancer"
           create_route53_record = true
+          install_airflow         = true
+          airflow_release_name    = "bitnami/airflow"
+          airflow_helm_values_dir = "helm_charts" 
       }
 
 ```
