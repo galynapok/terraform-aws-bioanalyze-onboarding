@@ -5,40 +5,54 @@
 #
 
 # Name of this project
-name: terraform-example-module
+name: terraform-bioanalyze
 
 # Logo for this project
 #logo: docs/logo.png
 
 # License of this project
-license: "APACHE2"
+#license: "APACHE2"
 
 # Copyrights
-copyrights:
-  - name: "Cloud Posse, LLC"
-    url: "https://cloudposse.com"
-    year: "2020"
+# copyrights:
+#   - name: "Dabble of DevOps, SCorp"
+#     url: "https://www.dabbleofdevops.com"
+#     year: "2020"
 
-# Canonical GitHub repo
-github_repo: cloudposse/terraform-example-module
+# # Canonical GitHub repo
+# github_repo: dabble-of-devops-biodeploy/terraform-aws-eks-jupyterhub
 
 # Badges to display
 badges:
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/cloudposse/terraform-example-module.svg"
     url: "https://github.com/cloudposse/terraform-example-module/releases/latest"
-  - name: "Slack Community"
-    image: "https://slack.cloudposse.com/badge.svg"
-    url: "https://slack.cloudposse.com"
   - name: "Discourse Forum"
     image: "https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg"
     url: "https://ask.sweetops.com/"
 
 # List any related terraform modules that this module may be used with or that this module depends on.
 related:
-  - name: "terraform-null-label"
-    description: "Terraform module designed to generate consistent names and tags for resources. Use terraform-null-label to implement a strict naming convention."
-    url: "https://github.com/cloudposse/terraform-null-label"
+  - name: terraform-aws-eks-autoscaling
+    description: Terraform module to provision an Autoscaling EKS Cluster. Acts as a wrapper around cloudposse/terraform-aws-eks-cluster and cloudposse/terraform-aws-eks-node-groups
+    url: https://github.com/dabble-of-devops-biodeploy/terraform-aws-eks-autoscaling
+  - name: terraform-aws-eks-cluster
+    description: Terraform module to deploy an AWS EKS Cluster.
+    url: https://github.com/cloudposse/terraform-aws-eks-workers
+  - name: terraform-aws-eks-node-group
+    description: Terraform module to provision an EKS Node Group
+    url: https://github.com/cloudposse/terraform-aws-eks-node-group
+  - name: Zero to Kubernetes
+    description: |
+      JupyterHub allows users to interact with a computing environment through a webpage. As most devices have access to a web browser, JupyterHub makes it is easy to provide and standardize the computing environment for a group of people (e.g., for a class of students or an analytics team).
+
+      This project will help you set up your own JupyterHub on a cloud/on-prem k8s environment and leverage its scalable nature to support a large group of users. Thanks to Kubernetes, we are not tied to a specific cloud provider.
+    url: https://zero-to-jupyterhub.readthedocs.io/
+  
+
+# Short description of this project
+description: |
+  Terraform module for Client Registration 
 
 # List any resources helpful for someone to get started. For example, link to the hashicorp documentation or AWS documentation.
 references:
@@ -55,33 +69,55 @@ references:
     description: "The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration"
     url: "https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version"
 
-# Short description of this project
-description: |-
-  This is `terraform-example-module` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-  use when creating new repositories.
 
 # Introduction to the project
 #introduction: |-
 #  This is an introduction.
 
 # How to use this module. Should be an easy example to copy and paste.
-usage: |-
+uusage: |-
   For a complete example, see [examples/complete](examples/complete).
-  
   For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest)
   (which tests and deploys the example on AWS), see [test](test).
-
   ```hcl
-  module "example" {
-    source = "https://github.com/cloudposse/terraform-example-module.git?ref=master"
-    example = "Hello world!"
-  }
-  ```
-
+      module "registration" {
+          source = "./registration"
+          enabled = true
+          name    = "clienta-org"
+          namespace = ""
+          subnets = ["subnet-35771e1b", "subnet-801a78e7"]
+          vpc_id = "vpc-8514abff"
+          databases = {
+              "airflow" = {
+                  name    = "clienta-org-airflow"
+                  cluster_size              = 2,
+                  create_random_db_password = true,
+                  instance_type             = "db.t2.small",
+                  security_groups           = [],
+                  retention_period          = 5,
+                  backup_window             = "07:00-09:00",
+                  admin_user                = "admin"
+              },
+              "bioanalyze" = {
+                  name    = "clienta-org-bioanalyze"
+                  cluster_size              = 2,
+                  create_random_db_password = true,
+                  instance_type             = "db.t2.small",
+                  security_groups           = [],
+                  retention_period          = 5,
+                  backup_window             = "07:00-09:00",
+                  admin_user                = "admin"
+              }
+          } 
+          enable_ssl = true
+          install_ingress = true
+          helm_release_values_service_type = "LoadBalancer"
+          create_route53_record = true
+      }
 # Example usage
 examples: |-
   Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-example-module/) - complete example of using this module
+  - [`examples/complete`](https://github.com/dabble-of-devops-biodeploy/terraform-aws-eks-jupyterhub/) - complete example of using this module
 
 # How to get started quickly
 #quickstart: |-
@@ -94,5 +130,5 @@ include:
 
 # Contributors to this project
 contributors:
-  - name: "Erik Osterman"
-    github: "osterman"
+  - name: "Galyna Pokydko"
+    github: "galynapok"

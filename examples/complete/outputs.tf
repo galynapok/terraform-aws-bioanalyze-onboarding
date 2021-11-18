@@ -1,14 +1,14 @@
-output "id" {
-  description = "ID of the created example"
-  value       = module.example.id
+output "aurora_endpoints" {
+  description = "List of database endpoints"
+  value       = module.registration.aurora_endpoints
 }
 
-output "example" {
-  description = "Output \"example\" from example module"
-  value       = module.example.example
+output "user" {
+  description = "IAM user name"
+  value       = module.registration.user
 }
 
-output "random" {
-  description = "Output \"random\" from example module"
-  value       = module.example.random
+output "bucket_domain_name" {
+  description = "User S3 bucket domain name"
+  value       = module.registration.bucket_domain_name
 }
