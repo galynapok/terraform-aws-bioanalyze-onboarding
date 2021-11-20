@@ -165,6 +165,13 @@ resource "aws_iam_user_policy" "s3" {
  #########################################################################
  # Deploy Ingress for BioAnalyze app.
  #########################################################################
+
+resource "kubectl_manifest" "cert-manager" {
+  count = local.ingress_enabled
+  yaml_body = file("${path.module}/helm_charts/ingress/cert-manager.yaml")
+  override_namespace = var.ingress_namespace
+}
+
 module "bioanalyze_ingress" {
   count                   = local.ingress_enabled
   source                  = "dabble-of-devops-bioanalyze/eks-bitnami-nginx-ingress/aws"
@@ -336,8 +343,7 @@ module "helm_release_airflow" {
   depends_on = [
     null_resource.create_merged_file,
   ]
-  //source                          = "dabble-of-devops-bioanalyze/eks-bitnami-apache-airflow/aws"
-  source = "git@github.com:galynapok/terraform-aws-eks-bitnami-apache-airflow.git"
+  source                          = "dabble-of-devops-bioanalyze/eks-bitnami-apache-airflow/aws"
   helm_release_name               = "airflow"
   helm_release_version            = var.airflow_helm_release_version
   helm_release_values_dir         = abspath(var.airflow_helm_values_dir)
