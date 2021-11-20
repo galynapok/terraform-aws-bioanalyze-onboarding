@@ -84,7 +84,7 @@ usage: |-
           source = "./registration"
           enabled = true
           name    = "clienta-org"
-          namespace = ""
+          namespace = "clienta-org"
           subnets = ["subnet-35771e1b", "subnet-801a78e7"]
           vpc_id = "vpc-8514abff"
           databases = {
