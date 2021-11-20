@@ -336,7 +336,8 @@ module "helm_release_airflow" {
   depends_on = [
     null_resource.create_merged_file,
   ]
-  source                          = "dabble-of-devops-bioanalyze/eks-bitnami-apache-airflow/aws"
+  //source                          = "dabble-of-devops-bioanalyze/eks-bitnami-apache-airflow/aws"
+  source = "git@github.com:galynapok/terraform-aws-eks-bitnami-apache-airflow.git"
   helm_release_name               = "airflow"
   helm_release_version            = var.airflow_helm_release_version
   helm_release_values_dir         = abspath(var.airflow_helm_values_dir)
