@@ -2,7 +2,7 @@ module "registration" {
     source = "../.."
     enabled = true
     name    = "clienta-org"
-    namespace = ""
+    namespace = "clienta-org"
     subnets = ["subnet-*", "subnet-*"]
     vpc_id = "vpc-*"
     context = module.this.context
