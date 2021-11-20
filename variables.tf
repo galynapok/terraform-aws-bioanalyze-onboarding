@@ -197,3 +197,13 @@ variable "airflow_helm_service_type" {
   type = string
   default = "ClusterIP"
 }
+
+variable "client_namespase" {
+  default = ""
+} 
+
+variable "ingress_namespace" {
+  type = string
+  default = "default"
+  
+}

@@ -172,6 +172,7 @@ module "bioanalyze_ingress" {
   letsencrypt_email       = var.letsencrypt_email
   helm_release_values_dir = var.helm_release_values_dir
   helm_release_name       = var.helm_release_name_ingress
+  helm_release_namespace  = var.ingress_namespace
 }
 
  #########################################################################
@@ -183,7 +184,8 @@ data "kubernetes_service" "bioanalyze_ingress" {
     module.bioanalyze_ingress
   ]
   metadata {
-    name = "${var.helm_release_name_ingress}-ingress-nginx-ingress-controller"
+    name      = "${var.helm_release_name_ingress}-ingress-nginx-ingress-controller"
+    namespace = var.ingress_namespace
   }
 }
 
@@ -207,7 +209,7 @@ resource "helm_release" "bioanalyze-app" {
   repository       = var.helm_release_repository
   chart            = var.helm_release_chart
   version          = var.helm_release_version
-  namespace        = var.helm_release_namespace
+  namespace        = var.client_namespase!= "" ? var.client_namespase : var.name
   create_namespace = var.helm_release_create_namespace
   wait             = var.helm_release_wait
   values = local.helm_release_values
@@ -269,7 +271,7 @@ data "kubernetes_service" "bioanalyze-app" {
   ]
   metadata {
     name      = var.helm_release_name
-    namespace = var.helm_release_namespace
+    namespace = var.client_namespase!= "" ? var.client_namespase : var.name
   }
 }
 
@@ -329,7 +331,7 @@ resource "null_resource" "create_merged_file" {
 }
 
 
- module "helm_release_airflow" {
+module "helm_release_airflow" {
   count    = module.this.enabled && var.install_airflow ? 1 : 0 
   depends_on = [
     null_resource.create_merged_file,
@@ -338,6 +340,7 @@ resource "null_resource" "create_merged_file" {
   helm_release_name               = "airflow"
   helm_release_version            = var.airflow_helm_release_version
   helm_release_values_dir         = abspath(var.airflow_helm_values_dir)
+  helm_release_namespace          = var.client_namespase!= "" ? var.client_namespase : var.name
   use_external_db                 = var.airflow_use_external_db
   external_db_secret              = try(aws_secretsmanager_secret_version.db-pass-val["airflow"].secret_string, "") 
   external_db_host                = try(compact([for item in module.rds_cluster_aurora: try(regexall(".*airflow.*", item.endpoint)[0], "")])[0], "")
