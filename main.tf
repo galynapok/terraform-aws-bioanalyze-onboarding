@@ -209,7 +209,7 @@ resource "helm_release" "bioanalyze-app" {
   repository       = var.helm_release_repository
   chart            = var.helm_release_chart
   version          = var.helm_release_version
-  namespace        = var.client_namespase!= "" ? var.client_namespase : var.name
+  namespace        = var.namespace!= "" ? var.namespace : var.name
   create_namespace = var.helm_release_create_namespace
   wait             = var.helm_release_wait
   values = local.helm_release_values
@@ -271,7 +271,7 @@ data "kubernetes_service" "bioanalyze-app" {
   ]
   metadata {
     name      = var.helm_release_name
-    namespace = var.client_namespase!= "" ? var.client_namespase : var.name
+    namespace = var.namespace!= "" ? var.namespace : var.name
   }
 }
 
@@ -340,7 +340,7 @@ module "helm_release_airflow" {
   helm_release_name               = "airflow"
   helm_release_version            = var.airflow_helm_release_version
   helm_release_values_dir         = abspath(var.airflow_helm_values_dir)
-  helm_release_namespace          = var.client_namespase!= "" ? var.client_namespase : var.name
+  helm_release_namespace          = var.namespace!= "" ? var.namespace : var.name
   use_external_db                 = var.airflow_use_external_db
   external_db_secret              = try(aws_secretsmanager_secret_version.db-pass-val["airflow"].secret_string, "") 
   external_db_host                = try(compact([for item in module.rds_cluster_aurora: try(regexall(".*airflow.*", item.endpoint)[0], "")])[0], "")
