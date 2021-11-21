@@ -11,7 +11,7 @@ name: terraform-bioanalyze-onboarding
 #logo: docs/logo.png
 
 # License of this project
-#license: "APACHE2"
+license: "APACHE2"
 
 # Copyrights
 # copyrights:
