@@ -27,13 +27,13 @@ variable "subnets" {
 }
 
 variable "s3_versioning" {
-  type = bool
+  type        = bool
   description = "Enable versioning for user resources S3 bucket"
-  default = true
+  default     = true
 }
 
 variable "databases" {
-    type = map(any)
+  type = map(any)
 }
 
 variable "helm_release_name" {
@@ -85,7 +85,7 @@ variable "helm_release_values_dir" {
 variable "helm_release_values_file" {
   type        = string
   description = "File to put additional values for helm release"
-  default = ""
+  default     = ""
 }
 
 
@@ -133,12 +133,12 @@ variable "aws_route53_record_name" {
 }
 
 variable "helm_release_name_ingress" {
-  type = string
+  type    = string
   default = "nginx"
 }
 
 variable "ingress_class" {
-  type = string
+  type    = string
   default = "nginx"
 }
 
@@ -147,59 +147,59 @@ variable "install_ingress" {
 }
 
 variable "create_route53_record" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "airflow_helm_values_dir" {
-  
+
 }
 
 variable "airflow_release_name" {
-  
+
 }
 variable "install_airflow" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "airflow_enable_ssl" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "airflow_aws_route53_record_name" {
-  type = string
-  default = "" 
+  type    = string
+  default = ""
 }
 
 variable "airflow_aws_route53_zone_name" {
-  type = string
-  default = "" 
+  type    = string
+  default = ""
 }
 
 variable "airflow_use_external_db" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "airflow_helm_release_version" {
-  type = string
+  type    = string
   default = "11.0.8"
 }
 
 variable "airflow_password" {
-  type = string
+  type    = string
   default = "PASSWORD"
 }
 
 variable "airflow_helm_service_type" {
-  type = string
+  type    = string
   default = "ClusterIP"
 }
 
 variable "ingress_namespace" {
-  type = string
+  type    = string
   default = "default"
-  
+
 }
