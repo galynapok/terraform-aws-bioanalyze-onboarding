@@ -20,7 +20,7 @@ license: "APACHE2"
 #     year: "2020"
 
 # # Canonical GitHub repo
-# github_repo: dabble-of-devops-bioanalyze/terraform-aws-bioanalyze-onboarding
+github_repo: dabble-of-devops-bioanalyze/terraform-aws-bioanalyze-onboarding
 
 # Badges to display
 badges:
